@@ -1,0 +1,78 @@
+import random
+import sys
+
+
+def game():
+    lowbound = 0
+    highbound = 100
+    randInt = 50
+    getHelp()
+    counter = 0
+    secondCounter = 0
+    while counter == 0:
+        newInput = input("How many guesses would you like the computer to have? ".format(randInt))
+        try:
+            intInput = int(newInput)
+            counter+=1
+        except ValueError:
+            print("That is not an acceptable input!")
+            continue
+            
+    while secondCounter < intInput:
+        user = input("Is your number {}? ".format(randInt))
+        if user.lower() == "too high":
+            try:
+                highbound = randInt - 1
+                randInt = random.randint(lowbound, highbound)
+                secondCounter+=1
+                continue
+                
+            except ValueError:
+                print("That is not consistent with your other answers")                
+                continue
+
+        elif user.lower() == "too low":
+            try:
+                lowbound = randInt + 1
+                randInt = random.randint(lowbound, highbound)
+                secondCounter+=1
+                continue
+                
+            except ValueError:
+                print("That is not consistent with your other answers")
+                continue
+                
+        elif user.lower() == "correct":
+            print("YAY! Your number was {}.".format(randInt))
+            playAgain()
+        
+        elif user.lower() == "quit":
+            print("Bye!")
+            return None
+        
+        elif user.lower() == "help":
+            getHelp()
+        
+        else:
+            print("That is not an acceptable input")
+            continue
+            
+    print("The computer ran out of turns!")  
+    playAgain()
+    
+
+def playAgain():
+    user = input("Would you like to play again? Y/n ")
+    if user.lower() == "n":
+        sys.exit(1)
+    else:
+        game()
+
+def getHelp():
+        print("""
+        Pick a number between 1 and 100.
+        Enter 'TOO HIGH' or 'TOO LOW' or 'CORRECT' accordingly to my guesses. 
+        To quit, enter 'QUIT'. To see this help message, enter 'HELP'
+        """)
+            
+game()
